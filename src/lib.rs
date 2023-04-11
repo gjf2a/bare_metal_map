@@ -31,9 +31,17 @@ impl<K:Copy+Clone+Default+Eq+PartialEq,V:Copy+Clone+Default,const MAX_ENTRIES: u
 
     pub fn put(&mut self, key: K, value: V) -> Option<usize> {
         for i in 0..self.map.len() {
-            if self.map[i].is_none() {
-                self.map[i] = Some((key, value));
-                return Some(i);
+            match self.map[i] {
+                Some((k, _)) => {
+                    if k == key {
+                        self.map[i] = Some((key, value));
+                        return Some(i);
+                    }
+                }
+                None => {
+                    self.map[i] = Some((key, value));
+                    return Some(i);
+                }
             }
         }
         None
@@ -63,6 +71,7 @@ mod tests {
         map.put("hello", 0);
         map.put("bye", 1);
         map.put("greetings", 2);
+        map.put("bye", 4);
 
         map.for_each(|k, v| println!("{k}: {v}"));
 
