@@ -1,6 +1,6 @@
 #![cfg_attr(not(test), no_std)]
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct BareMetalMap<K:Copy, V:Copy, const MAX_ENTRIES: usize> {
     map: [Option<(K, V)>; MAX_ENTRIES]
 }
